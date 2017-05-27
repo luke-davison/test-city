@@ -31,5 +31,5 @@ function xToIso (xpos, ypos, width) {
 
 function yToIso (xpos, ypos, imgHeight) {
   console.log(xpos, ypos)
-  return (xpos + ypos) * 33 - imgHeight
+  return (xpos + ypos + 2) * 33 - imgHeight
 }
