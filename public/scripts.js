@@ -12,24 +12,44 @@ function runOnStart () {
         img.classList.add('id' + i)
         img.classList.add('tile')
         document.getElementById('main').appendChild(img)
-        img.onload = () => {moveImage(img, j, i)}
-
+        img.onload = function () {moveImage(img, j, i, 0)}
+      }
+      let k = 2
+      while (data[i * 28 + j][k]) {
+        let img = document.createElement('img')
+        img.src = '../sprites/' + data[i * 28 + j][k]
+        img.style.position = 'absolute'
+        img.classList.add('id' + i)
+        img.classList.add('tile')
+        document.getElementById('main').appendChild(img)
+        img.onload = function () {moveImage(img, j, i, k - 1)}
+        k++
       }
     }
   }
 }
 
-function moveImage(img, xpos, ypos) {
-  console.log(this)
-  img.style.left = xToIso(xpos, ypos, img.width) + 'px'
-  img.style.top = yToIso(xpos, ypos, img.height) + 'px'
+function loadBaseSprite(data) {
+
 }
 
-function xToIso (xpos, ypos, width) {
-  return 66 * (18 + xpos - ypos)
+function moveImage(img, xpos, ypos, zpos) {
+  img.style.left = xToIso(xpos, ypos, img.width, zpos) + 'px'
+  img.style.top = yToIso(xpos, ypos, img.height, zpos) + 'px'
 }
 
-function yToIso (xpos, ypos, imgHeight) {
-  console.log(xpos, ypos)
-  return (xpos + ypos + 2) * 33 - imgHeight
+function xToIso (xpos, ypos, imgWidth, zpos) {
+  let offset = 0
+  if (zpos > 0) {
+    offset = 17
+  }
+  return 66 * (18 + xpos - ypos) + offset
+}
+
+function yToIso (xpos, ypos, imgHeight, zpos) {
+  let offset = 0
+  if (zpos > 0) {
+    offset = -72
+  }
+  return (xpos + ypos + 2) * 33 - imgHeight + offset
 }
